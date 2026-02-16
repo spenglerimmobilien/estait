@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Run with: npx prisma db seed
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Makler {
+  id              String           @id @default(cuid())
+  name            String           // Anzeigename (wird aus firmenname gesetzt)
+  firmenname      String           @default("")
+  ansprechpartner String?
+  plz             String
+  city            String
+  address         String?
+  email           String?
+  phone           String?
+  website         String?
+  facebookUrl     String?
+  instagramUrl    String?
+  linkedinUrl     String?
+  twitterUrl      String?
+  youtubeUrl      String?
+  googleBusinessUrl String?        // Link zum Google-Business-Profil / Bewertungen
+  taetigkeitsbereiche String?     // JSON array: Wohnimmobilien, Gewerbe, etc.
+  leistungen       String?        // JSON array: Bewertung, Energieausweis, etc.
+  ueberUnserBuero  String?        // Freitext über Arbeitsweise, Büro
+  status          String           @default("standard") // standard | starter | partner | premium | pending
+  requestedPlan   String?          // bei pending: welcher Plan beantragt wurde
+  verifiedAt      DateTime?
+  logoUrl         String?
+  passwordHash    String?          // für Makler-Login
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  leads           Lead[]           // deprecated, use leadAssignments
+  leadAssignments LeadAssignment[]
+}
+
+model Lead {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  plz          String
+  propertyData String?  // JSON string
+  maklerId     String?  // deprecated, use assignments
+  createdAt    DateTime @default(now())
+
+  makler        Makler?           @relation(fields: [maklerId], references: [id])
+  assignments   LeadAssignment[]
+}
+
+model LeadAssignment {
+  id           String  @id @default(cuid())
+  leadId       String
+  maklerId     String
+  maklerStatus String? // offen | kontaktiert | absage | zusage | bewertung
+
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  makler Makler @relation(fields: [maklerId], references: [id], onDelete: Cascade)
+
+  @@unique([leadId, maklerId])
+}
+
+model Eigentuemer {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}

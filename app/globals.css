@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+@keyframes success-pop {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-success-pop {
+  animation: success-pop 0.5s ease-out forwards;
+}
+
+/* Leaflet custom markers – kein Standard-Hintergrund */
+.leaflet-marker-icon.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Leaflet map container – explizite Höhe für sichtbare Karte */
+.leaflet-container {
+  height: 100% !important;
+  min-height: 400px;
+  z-index: 0;
+}
