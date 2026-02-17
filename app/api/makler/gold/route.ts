@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 /** Top-Tier Makler (Premium) – Route /gold bleibt für Kompatibilität */
 export async function GET() {
   const makler = await prisma.makler.findMany({

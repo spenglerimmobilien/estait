@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { VALID_ABO_STATUSES } from '@/lib/abo-stufen'
 
+export const dynamic = 'force-dynamic'
+
 const PAGE_SIZE = 24
 
 export async function GET(request: NextRequest) {

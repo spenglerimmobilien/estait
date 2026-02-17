@@ -68,8 +68,8 @@ export default function MaklerPage() {
         if (list.length > 0 && list.length <= MAP_MAX_RESULTS) {
           setMapLoading(true)
           const uniqueLocations = Array.from(
-            new Map(list.map((m) => [`${m.plz}|${m.city}`, { plz: m.plz, city: m.city }])).values()
-          )
+            new Map(list.map((m: Makler) => [`${m.plz}|${m.city}`, { plz: m.plz, city: m.city }])).values()
+          ) as { plz: string; city?: string }[]
           const BATCH_SIZE = 50
           const batches: { plz: string; city?: string }[][] = []
           for (let i = 0; i < uniqueLocations.length; i += BATCH_SIZE) {
@@ -91,11 +91,11 @@ export default function MaklerPage() {
                 if (r) coordsCache.set(`${r.plz}|${r.city ?? ''}`, { lat: r.lat, lng: r.lng })
               })
               const withCoords: MaklerWithCoords[] = list
-                .map((m) => {
+                .map((m: Makler) => {
                   const coords = coordsCache.get(`${m.plz}|${m.city}`)
                   return coords ? { ...m, lat: coords.lat, lng: coords.lng } : null
                 })
-                .filter((m): m is MaklerWithCoords => m !== null)
+                .filter((m: MaklerWithCoords | null): m is MaklerWithCoords => m !== null)
               setMaklerWithCoords(withCoords)
             })
             .finally(() => setMapLoading(false))

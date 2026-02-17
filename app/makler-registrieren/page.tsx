@@ -17,7 +17,8 @@ const VALID_PLANS = ['standard', 'starter', 'partner', 'premium'] as const
 function MaklerRegistrierenForm() {
   const searchParams = useSearchParams()
   const planParam = searchParams.get('plan')?.toLowerCase()
-  const initialPlan = planParam === 'kostenlos' ? 'standard' : (VALID_PLANS.includes(planParam as typeof VALID_PLANS[number]) ? planParam : 'standard')
+  const initialPlan =
+    (planParam === 'kostenlos' ? 'standard' : VALID_PLANS.includes(planParam as (typeof VALID_PLANS)[number]) ? planParam : 'standard') ?? 'standard'
 
   const [name, setName] = useState('')
   const [plz, setPlz] = useState('')

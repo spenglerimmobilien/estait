@@ -5,7 +5,7 @@ generator client {
 // Run with: npx prisma db seed
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
