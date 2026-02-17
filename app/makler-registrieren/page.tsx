@@ -32,7 +32,7 @@ function MaklerRegistrierenForm() {
   const [address, setAddress] = useState('')
   const [phone, setPhone] = useState('')
   const [website, setWebsite] = useState('')
-  const [plan, setPlan] = useState<string>(initialPlan)
+  const [plan, setPlan] = useState<string>(initialPlan ?? 'standard')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
